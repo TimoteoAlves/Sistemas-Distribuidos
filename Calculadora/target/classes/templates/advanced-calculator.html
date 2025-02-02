@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Avançada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .calculator h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .calculator input, .calculator button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .calculator button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .calculator button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function calculate(operation) {
+            var a = parseFloat(document.getElementById('a').value);
+            var b = parseFloat(document.getElementById('b').value || 0); // Valor B opcional
+            var c = parseFloat(document.getElementById('c').value || 0); // Valor C opcional
+            var d = parseFloat(document.getElementById('d').value || 0); // Valor D opcional
+            var e = parseFloat(document.getElementById('e').value || 0); // Valor E opcional
+            var url = '/' + operation + '?a=' + a;
+
+            // Adicionar B se a operação não for sqrt, inverse ou factorial
+            if (operation !== 'sqrt' && operation !== 'inverse' && operation !== 'factorial') {
+                url += '&b=' + b;
+            }
+
+            // Adicionar C, D e E se a operação for average ou median
+            if (operation === 'average' || operation === 'median') {
+                url += '&b=' + b + '&c=' + c + '&d=' + d + '&e=' + e;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = 'Resultado: ' + data;
+                })
+                .catch(error => console.error('Erro:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Calculadora Avançada</h1>
+        <input type="number" id="a" name="a" placeholder="Valor A">
+        <input type="number" id="b" name="b" placeholder="Valor B (se aplicável)">
+        <input type="number" id="c" name="c" placeholder="Valor C (para média/mediana)">
+        <input type="number" id="d" name="d" placeholder="Valor D (para média/mediana)">
+        <input type="number" id="e" name="e" placeholder="Valor E (para média/mediana)">
+        <button onclick="calculate('sqrt')">Raiz Quadrada</button>
+        <button onclick="calculate('power')">Exponenciação</button>
+        <button onclick="calculate('inverse')">Inverso</button>
+        <button onclick="calculate('modulus')">Módulo</button>
+        <button onclick="calculate('factorial')">Fatorial</button>
+        <button onclick="calculate('average')">Média de 5 valores</button>
+        <button onclick="calculate('median')">Mediana de 5 valores</button>
+        <div class="result" id="result">Resultado:</div>
+    </div>
+</body>
+</html>
