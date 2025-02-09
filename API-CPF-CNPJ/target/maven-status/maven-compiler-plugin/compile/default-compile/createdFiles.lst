@@ -1,0 +1,5 @@
+com\timoteo\API\CPF\CNPJ\service\ValidacaoService.class
+com\timoteo\API\CPF\CNPJ\ValidacaoException.class
+com\timoteo\API\CPF\CNPJ\GlobalExceptionHandler.class
+com\timoteo\API\CPF\CNPJ\ValidacaoController.class
+com\timoteo\API\CPF\CNPJ\ValidacaoDocumentosApplication.class
